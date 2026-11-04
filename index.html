@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoundCheck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="hero-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#gradHero)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <defs>
+            <linearGradient id="gradHero" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7C5CFF"/>
+              <stop offset="100%" stop-color="#3BA7FF"/>
+            </linearGradient>
+          </defs>
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+        </svg>
+      </div>
+      <h1 class="hero-title">SoundCheck</h1>
+      <p class="hero-subtitle">Анализ текста, вокала и микса за пару минут</p>
+      <a href="#text" class="btn btn-primary">Проверь свой трек</a>
+      <div class="hero-wave" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== 2. ТЕКСТ ===== -->
+  <section class="section" id="text">
+    <h2 class="section-title">Проверь свой текст здесь</h2>
+
+    <div class="grid-2">
+      <div class="col">
+        <label class="label" for="lyricsInput">Вставь свой текст</label>
+        <textarea id="lyricsInput" class="textarea" placeholder="Твой текст сюда..."></textarea>
+        <div class="row-between">
+          <span class="char-count" id="charCount">0 символов</span>
+          <button class="btn btn-primary" id="analyzeTextBtn" type="button">Оценить текст</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <h3 class="col-title">Оценка и советы:</h3>
+        <div class="cards" id="textScores"></div>
+        <div class="advice-box" id="textAdvice">
+          <span class="advice-empty">Советы по улучшению появятся после анализа</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. ВОКАЛ ===== -->
+  <section class="section" id="vocal">
+    <h2 class="section-title">Улучши свой вокал</h2>
+
+    <div class="grid-2">
+      <div class="col">
+        <h3 class="col-title">Звуковые дорожки</h3>
+
+        <!-- Поле для BPM -->
+        <div class="bpm-input-group">
+          <label for="bpmInput">BPM бита (если знаешь):</label>
+          <input type="number" id="bpmInput" placeholder="Например, 120" min="60" max="200">
+        </div>
+
+        <div class="dropzone" id="vocalDrop" data-kind="vocal">
+          <div class="dz-icon">🎤</div>
+          <div class="dz-text">Вокал (mp3 / wav)</div>
+          <input type="file" accept="audio/*" hidden>
+        </div>
+        <div class="dropzone" id="beatDrop" data-kind="beat">
+          <div class="dz-icon">🥁</div>
+          <div class="dz-text">Инструментал (mp3 / wav)</div>
+          <input type="file" accept="audio/*" hidden>
+        </div>
+        <button class="btn btn-primary" id="analyzeVocalBtn" type="button" disabled>Анализировать вокал</button>
+      </div>
+
+      <div class="col">
+        <h3 class="col-title">Оценка и советы:</h3>
+        <div class="cards" id="vocalScores"></div>
+        <div class="advice-box" id="vocalAdvice">
+          <span class="advice-empty">Советы по улучшению появятся после анализа</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. АНАЛИЗ МИКСА ===== -->
+  <section class="section" id="mix">
+    <h2 class="section-title">Анализ микса</h2>
+
+    <div class="grid-2">
+      <div class="col">
+        <h3 class="col-title">Финальный микс</h3>
+        <div class="dropzone" id="mixDrop" data-kind="mix">
+          <div class="dz-icon">🎚</div>
+          <div class="dz-text">Финальный микс (mp3 / wav)</div>
+          <input type="file" accept="audio/*" hidden>
+        </div>
+        <button class="btn btn-primary" id="analyzeMixBtn" type="button" disabled>Анализировать микс</button>
+      </div>
+      <div class="col">
+        <h3 class="col-title">Оценка и советы:</h3>
+        <div class="cards cards-4" id="mixScores"></div>
+        <div class="advice-box" id="mixAdvice">
+          <span class="advice-empty">Советы по улучшению появятся после анализа</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. ОБЩАЯ ОЦЕНКА ===== -->
+  <section class="section" id="total">
+    <h2 class="section-title">Общая оценка</h2>
+
+    <div class="total-inner">
+      <div class="total-top">
+        <div class="dropzone dropzone-wide" id="finalDrop" data-kind="final">
+          <div class="dz-icon">🎧</div>
+          <div class="dz-text">Загрузи свой трек!</div>
+          <input type="file" accept="audio/*" hidden>
+        </div>
+
+        <div class="score-big">
+          <span class="score-num" id="scoreNum">—</span>
+          <span class="score-max">/ 100</span>
+        </div>
+
+        <div class="verdict" id="verdict">Загрузи трек, чтобы получить вердикт</div>
+      </div>
+
+      <div class="total-grid">
+        <div class="col">
+          <h3 class="col-title">Оценка по критериям</h3>
+          <div class="radar-wrap">
+            <canvas id="radarChart" width="320" height="320"></canvas>
+          </div>
+        </div>
+        <div class="col">
+          <h3 class="col-title">Советы по улучшению</h3>
+          <div class="advice-box" id="totalAdvice">
+            <span class="advice-empty">Сводные советы появятся после анализа</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">SoundCheck</div>
+      <p class="footer-note">Сделано для себя, но открыто всем</p>
+      <div class="footer-contacts">
+        <a href="https://t.me/HeighTuser" target="_blank" rel="noopener" class="contact" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M9.04 15.47l-.38 5.34c.54 0 .78-.23 1.06-.5l2.56-2.45 5.3 3.87c.97.54 1.66.26 1.92-.9L21.9 5.5c.3-1.42-.51-1.98-1.45-1.63L3.44 10.86c-1.36.53-1.34 1.29-.23 1.63l4.34 1.35 10.09-6.36c.48-.3.91-.13.55.17z"/></svg>
+        </a>
+        <a href="mailto:lav43797@gmail.com" class="contact" aria-label="Gmail">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        </a>
+        <a href="https://github.com/roma111-ai" target="_blank" rel="noopener" class="contact" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.41-2.69 5.38-5.25 5.66.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+        </a>
+        <a href="tel:+79826143797" class="contact" aria-label="Позвонить">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+      </div>
+      <p class="footer-year">© <span id="year"></span> SoundCheck</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
